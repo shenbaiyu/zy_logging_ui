@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Login-Swagger ui</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Icons css -->
+    <link href="css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/webfont.css" rel="stylesheet" type="text/css" />
+    <link href="css/simple-line-icons.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <!-- build:css -->
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
+    <!-- endbuild -->
+
+</head>
+
+<body class="bg-account-pages">
+
+<!-- Login -->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="wrapper-page">
+                    <div class="account-pages">
+                        <div class="account-box">
+
+                            <!-- Logo box-->
+                            <div class="account-logo-box">
+                                <h2 class="text-uppercase text-center">
+                                    <a href="#" class="text-success">
+                                        <span><img src="images/logo_dark.png" alt="" height="28"></span>
+                                    </a>
+                                </h2>
+                            </div>
+
+                            <div class="account-content">
+                                <div class="form-group mb-3">
+                                    <label for="UserName" class="font-weight-medium">手机号：</label>
+                                    <input class="form-control" type="text" id="username" name="username" required=""
+                                           placeholder="请输入手机号">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <!--<a href="auth-recoverpassword.html" class="text-muted float-right"><small>Forgot your password?</small></a>-->
+                                    <label for="password" class="font-weight-medium">密码：</label>
+                                    <input class="form-control" type="password" required="" id="password" name="password"
+                                           placeholder="请输入密码">
+                                </div>
+
+
+                                <div class="form-group row text-center">
+                                    <div class="col-12">
+                                        <button class="btn btn-block btn-success waves-effect waves-light" type="button" onclick="loginSwagger()">登  录</button>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <p class="text-muted">没有帐户？<a href="auth-register.html" class="text-dark m-l-5"><b>注  册</b></a></p>
+                                    </div>
+                                </div> <!-- end row-->
+
+
+                            </div> <!-- end account-content -->
+
+                        </div> <!-- end account-box -->
+                    </div>
+                    <!-- end account-page-->
+                </div>
+                <!-- end wrapper-page -->
+
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div> <!-- end container -->
+</section>
+<!-- END HOME -->
+
+
+<!-- jQuery  -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script type="text/javascript">
+        //获取url中传递的参数
+        function getQueryString(name) {
+            var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+            if (result == null || result.length < 1) {
+                return "";
+            }
+            return result[1];
+        }
+
+        var type = getQueryString("loginType");
+        //alert(type);
+
+
+        function loginSwagger() {
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                $.ajax({
+                    type: "POST",
+                    url: "/v1/swagger-login",
+                    dataType: "json",
+                    //async: false,
+                    data: { "username": username, "password": password, "type": type },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    success: function (data) {
+                        if (data.code == 200) {
+                            window.location.href=data.data.url;
+                        } else {
+                            alert(data.message);
+                        }
+
+                    },
+                    error: function (data) {
+                        alert("failed" + data);
+                    }
+                });
+            }
+
+    </script>
+
+
+<!-- App js -->
+<script src="js/jquery.core.js"></script>
+<script src="js/jquery.app.js"></script>
+
+</body>
+
+</html>
